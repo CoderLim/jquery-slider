@@ -13,21 +13,21 @@
   .content {
     text-align: center;
   }
-  
+
   .carousel {
-    position: relative;
-    margin:0 auto;
-    width: 80%;
   }
   .carousel-slider-wrapper {
     position: relative;
+    box-sizing: border-box;
     margin-left: 20px;
     margin-right: 20px;
+
     overflow: hidden;
   }
   .carousel-slider {
     position: relative;
     left: 0px;
+    box-sizing: border-box;
     font-size: 0; /* required */
     white-space: nowrap;
     -webkit-transition: left 0.25s linear;
@@ -44,8 +44,8 @@
   }
   .carousel-item {
     display: inline-block;
+    box-sizing: border-box;
     margin-left: 5px;
-    background: url(./assets/images/1.jpg) no-repeat #fff;
     background-size: cover;
     width: 100px;
     height: 100px;
@@ -58,6 +58,9 @@
     position: absolute;
     top: 0;
     width: 20px;
+    height: 104px;
+    vertical-align: middle;
+    line-height: 104px;
   }
   .carousel-prev {
     left: 0;
@@ -68,68 +71,110 @@
   </style>
 </head>
 <body>
+   <div class="content">
+      <div class="carousel"></div>
+   </div>
 
-    <div class="content">
-      <div class="carousel">
-        <div class="carousel-prev">prev</div>
-        <div class="carousel-slider-wrapper">
-          <div class="carousel-slider">
-            <div class="carousel-item"></div>
-            <div class="carousel-item"></div>
-            <div class="carousel-item"></div>
-            <div class="carousel-item"></div>
-            <div class="carousel-item"></div>
-            <div class="carousel-item"></div>
-            <div class="carousel-item"></div>
-            <div class="carousel-item"></div>
-            <div class="carousel-item"></div>
-            <div class="carousel-item"></div>
-            <div class="carousel-item"></div>
-            <div class="carousel-item"></div>
-            <div class="carousel-item"></div>
-            <div class="carousel-item"></div>
-            <div class="carousel-item"></div>
-            <div class="carousel-item"></div>
-          </div>
-        </div>
-        <div class="carousel-next">next</div>
-      </div>
-  </div>
    <script src="http://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
    <script>
    (function() {
-     var $prev = $('.carousel-prev'),
-         $next = $('.carousel-next'),
-         $slider = $('.carousel-slider'),
-         $items = $('.carousel-item'),
-         $sliderWrapper = $('.carousel-slider-wrapper');
-
-     var itemWidth = 100,
-         itemHeight = 100,
-         itemMargin = 5,
-         itemBorder = 4,
-         totalWidth = $items.length*(itemWidth+itemMargin)-itemMargin;
-
-     $prev.on('click', function() {
-       if (totalWidth - $sliderWrapper.width() > -$slider.position().left) {
-         prev();
+     $.fn.imageSlider = function(options) {
+       if (!options.images || !$.isArray(options.images)) {
+         throw new Error('options.images invalid');
        }
-     });
-     $next.on('click', function() {
-       if ($slider.position().left < 0) {
-         next();
-       }
-     });
 
-     function prev() {
-        $slider.css('left', $slider.position().left - (itemWidth + itemMargin + 2*itemBorder) +'px');
-     }
-     function next() {
-       $slider.css('left', $slider.position().left + (itemWidth + itemMargin + 2*itemBorder) +'px');
-     }
+       var defaults = {
+         itemWidth: 100,
+         itemHeight: 100,
+         itemMargin: 5,
+       };
+
+       options = $.extend(options, defaults);
+
+       var $this = $(this),
+           $prev = null,
+           $next = null,
+           $slider = null,
+           $sliderWrapper = null,
+           $items = [],
+
+           itemWidth = options.itemWidth,
+           itemHeight = options.itemHeight,
+           itemMargin = options.itemMargin,
+           totalWidth = options.images.length * (options.itemWidth + options.itemMargin) - options.itemMargin;
+
+        // 初始化
+        init();
+
+        $prev.on('click', function() {
+          console.log('total ' + totalWidth);
+          console.log('$sliderWrapper.width() ' + $sliderWrapper.width());
+          console.log('$slider.position().left ' + $slider.position().left);
+          if (totalWidth - $sliderWrapper.width() >= -$slider.position().left) {
+            prev();
+          }
+        });
+
+        $next.on('click', function() {
+          if ($slider.position().left < 0) {
+            next();
+          }
+        });
+
+        function init() {
+          /*
+           *    this>prev,sliderWrapper>slider,next
+           */
+          $prev = $('<span class="carousel-prev">p</span>');
+          $next = $('<span class="carousel-next">n</span>');
+          $slider = $(' <div class="carousel-slider"></div>');
+          $sliderWrapper = $('<div class="carousel-slider-wrapper"></div>');
+
+          $this.append($prev);
+          $this.append($sliderWrapper);
+          $this.append($next);
+          $sliderWrapper.append($slider);
+
+          $(options.images).each(function(index, image) {
+            var $item = $('<div class="carousel-item"></div>');
+            $item.css('background', 'url(' + image + ')');
+            $slider.append($item);
+            $items.push($item);
+          });
+        }
+
+        function prev() {
+          console.log($slider.position().left - (itemWidth + itemMargin));
+          $slider.css('left', $slider.position().left - (itemWidth + itemMargin) +'px');
+        }
+        function next() {
+          $slider.css('left', $slider.position().left + (itemWidth + itemMargin) +'px');
+        }
+    }
+
+    $('.carousel').imageSlider({
+      images: [
+        './assets/images/1.jpg',
+        './assets/images/2.jpg',
+        './assets/images/2.jpg',
+        './assets/images/2.jpg',
+        './assets/images/2.jpg',
+        './assets/images/2.jpg',
+        './assets/images/2.jpg',
+        './assets/images/2.jpg',
+        './assets/images/3.jpg',
+        './assets/images/4.jpg',
+        './assets/images/4.jpg',
+        './assets/images/4.jpg',
+        './assets/images/4.jpg',
+        './assets/images/4.jpg',
+        './assets/images/4.jpg',
+      ]
+    });
    })();
    </script>
 </body>
 </html>
+
 
 
