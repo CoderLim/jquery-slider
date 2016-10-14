@@ -1,3 +1,11 @@
+/**
+ *  jQuery Image Slider Plugin
+ *  https://github.com/CoderGLM/jquery-slider
+ *
+ *  (c) http://gengliming.com/
+ *  MIT licensed
+ */
+
 (function(factory) {
 
     factory(jQuery);
