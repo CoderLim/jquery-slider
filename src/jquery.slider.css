@@ -1,8 +1,8 @@
 .glm-slider-wrapper {
   position: relative;
   box-sizing: border-box;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 30px;
+  margin-right: 30px;
   overflow: hidden;
 }
 .glm-slider {
@@ -21,21 +21,18 @@
   display: inline-block;
   width: 100px;
   height: 100px;
-  margin-left: 5px;
   box-sizing: border-box;
   background-size: cover;
-  border: 4px #fff solid;
+  border: 5px #fff solid;
 }
-.glm-item:first-child {
-  margin-left: 0;
-}
-.glm-prev, .glm-next {
+.glm-prev,.glm-next {
   position: absolute;
   top: 0;
   width: 20px;
   vertical-align: middle;
   line-height: 104px;
-  background: #fff center no-repeat;
+  background: transparent center no-repeat;
+  background-size: contain;
 }
 .glm-prev {
   left: 0;

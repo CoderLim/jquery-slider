@@ -1,11 +1,3 @@
-/**
- *  jQuery Image Slider Plugin
- *  https://github.com/CoderGLM/jquery-slider
- *
- *  (c) http://gengliming.com/
- *  MIT licensed
- */
-
 (function(factory) {
 
     factory(jQuery);
@@ -20,6 +12,8 @@
         /* previous and next button */
         prevIcon: 'http://gengliming.com/assets/images/favicon.png',
         nextIcon: 'http://gengliming.com/assets/images/favicon.png',
+        prevText: '',
+        nextText: '',
 
         /*image box-model*/
         itemWidth: 100,
@@ -30,6 +24,9 @@
       options = $.extend(defaults, options);
 
       return this.each(function() {
+          // make $this empty at first
+          $(this).empty();
+
           var $this = $(this),
               $container = null,
               $prev = null,
@@ -61,15 +58,15 @@
              *    </div>
              */
             $container = $('<div style="position:relative"/>');
-            $prev = $('<span class="glm-prev">p</span>');
-            $next = $('<span class="glm-next">n</span>');
+            $prev = $('<div class="glm-prev">' + options.prevText + '</div>');
+            $next = $('<div class="glm-next">' + options.nextText + '</div>');
             $slider = $(' <div class="glm-slider"></div>');
             $sliderWrapper = $('<div class="glm-slider-wrapper"></div>');
 
             $this.append($container);
             $container.append($prev);
             $container.append($sliderWrapper);
-            $container.append($next);
+            $container.append($next)
             $sliderWrapper.append($slider);
 
             $(options.images).each(function(index, image) {
@@ -77,20 +74,25 @@
               $item.css({
                 'width': itemWidth + 'px',
                 'height': itemHeight + 'px',
-                'background': 'url(' + image + ')'
+                'background-image': 'url(' + image + ')'
               });
+              if (index > 0) {
+                $item.css('margin-left', options.itemMargin + 'px');
+              }
               $slider.append($item);
               $items.push($item);
             });
 
             $prev.css({
-              'background': 'url('+ options.prevIcon +')',
-              'line-height': itemHeight + 'px'
+              'background-image': 'url('+ options.prevIcon +')',
+              'line-height': itemHeight + 'px',
+              'height': itemHeight + 'px',
             });
 
             $next.css({
-              'background': 'url('+ options.nextIcon +')',
-              'line-height': itemHeight + 'px'
+              'background-image': 'url('+ options.nextIcon +')',
+              'line-height': itemHeight + 'px',
+              'height': itemHeight + 'px',
             });
 
             $prev.on('click', function() {
