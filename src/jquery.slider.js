@@ -79,13 +79,16 @@
               var $item = $('<div class="glm-item"></div>');
               var $img = $('<img src="'+ image +'">');
               $item.append($img);
+
               $img.on('load', function () {
                 itemWidth = $(this).parent().width();
                 totalWidth = options.images.length*(itemWidth+margin)-margin;
               });
-              if (index > 0) {
-                /*$img.css('margin-left', margin + 'px');*/
-              }
+
+              options.border && $img.css({
+                'border-width': options.border + 'px'
+              });
+
               $slider.append($item);
               $items.push($item);
             });
@@ -99,8 +102,6 @@
             });
 
             $prev.on('click', function() {
-              console.log($slider.position().left);
-              console.log(totalWidth - $sliderWrapper.width());
               if ($slider.is(':animated')) return;
               if (totalWidth - $sliderWrapper.width() >= -$slider.position().left) {
                 prev();
