@@ -22,7 +22,7 @@
         nextText: '',
 
         /*image box-model*/
-        margin: 10,
+        margin: 5,
         border: 10,
       };
 
