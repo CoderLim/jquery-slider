@@ -22,8 +22,8 @@
         nextText: '',
 
         /*image box-model*/
-        itemMargin: 5,
-        itemBroderWidth: 10,
+        margin: 10,
+        border: 10,
       };
 
       options = $.extend(defaults, options);
@@ -40,11 +40,11 @@
               $sliderWrapper = null,
               $items = [],
 
+              /* it's not image */
               itemWidth = 0,
-              itemHeight = 0,
-              itemMargin = options.itemMargin,
+              margin = options.margin,
               totalWidth = 0,
-              borderWidth = options.width;
+              border = options.border;
 
           // 初始化
           init();
@@ -80,11 +80,11 @@
               var $img = $('<img src="'+ image +'">');
               $item.append($img);
               $img.on('load', function () {
-                itemWidth = $(this).width();
-                totalWidth = options.images.length*(itemWidth+itemMargin)-itemMargin;
+                itemWidth = $(this).parent().width();
+                totalWidth = options.images.length*(itemWidth+margin)-margin;
               });
               if (index > 0) {
-                $item.css('margin-left', options.itemMargin + 'px');
+                /*$img.css('margin-left', margin + 'px');*/
               }
               $slider.append($item);
               $items.push($item);
@@ -116,16 +116,16 @@
           }
 
           function prev() {
-            //$slider.css('left', $slider.position().left - (itemWidth + itemMargin) +'px');
+            //$slider.css('left', $slider.position().left - (itemWidth + margin) +'px');
             $slider.animate({
-              'left': $slider.position().left - (itemWidth + itemMargin) +'px'
+              'left': $slider.position().left - (itemWidth) +'px'
             });
           }
 
           function next() {
-            //$slider.css('left', $slider.position().left + (itemWidth + itemMargin) +'px');
+            //$slider.css('left', $slider.position().left + (itemWidth + margin) +'px');
             $slider.animate({
-              'left': $slider.position().left + (itemWidth + itemMargin) +'px'
+              'left': $slider.position().left + (itemWidth) +'px'
             });
           }
     });

@@ -10,6 +10,8 @@
   left: 0px;
   box-sizing: border-box;
   font-size: 0; /* required */
+  letter-spacing: 0;
+  word-spacing: 0;
   white-space: nowrap;
   /*-webkit-transition: left 0.25s linear;
   -moz-transition: left 0.25s linear;
@@ -19,14 +21,12 @@
 }
 .glm-item {
   display: inline-block;
-  width: 33.3%;
-  height: auto;
-  box-sizing: border-box;
-  background-size: cover;
+  width: 25%;
+  border: 0;
 }
 .glm-item img {
-  width: 90%;
-  height: 100%;
+  width: 95%;
+  box-sizing: border-box;
   border: 10px solid #fff;
 }
 .glm-prev,.glm-next {
