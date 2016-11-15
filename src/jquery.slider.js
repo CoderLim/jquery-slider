@@ -1,3 +1,9 @@
+/*
+ *  name: jQuery Image Slider
+ *  author: gengliming
+ *  version: bete 1.0.0
+ *
+ */
 (function(factory) {
 
     factory(jQuery);
@@ -16,9 +22,8 @@
         nextText: '',
 
         /*image box-model*/
-        itemWidth: 100,
-        itemHeight: 100,
         itemMargin: 5,
+        itemBroderWidth: 10,
       };
 
       options = $.extend(defaults, options);
@@ -35,10 +40,11 @@
               $sliderWrapper = null,
               $items = [],
 
-              itemWidth = options.itemWidth,
-              itemHeight = options.itemHeight,
+              itemWidth = 0,
+              itemHeight = 0,
               itemMargin = options.itemMargin,
-              totalWidth = options.images.length * (options.itemWidth + options.itemMargin) - options.itemMargin;
+              totalWidth = 0,
+              borderWidth = options.width;
 
           // 初始化
           init();
@@ -49,10 +55,10 @@
              *     <span class="glm-prev"></span>
              *     <div class="glm-slider-wrapper">
              *       <div class="glm-slider">
-             *         <div class="glm-item" style="background: url(&quot;./assets/images/1.jpg&quot;);"></div>
-             *         <div class="glm-item" style="background: url(&quot;./assets/images/2.jpg&quot;);"></div>
-             *         <div class="glm-item" style="background: url(&quot;./assets/images/2.jpg&quot;);"></div>
-             *         <div class="glm-item" style="background: url(&quot;./assets/images/2.jpg&quot;);"></div>
+             *         <div class="glm-item""><img src=""></div>
+             *         <div class="glm-item""><img src=""></div>
+             *         <div class="glm-item""><img src=""></div>
+             *         <div class="glm-item""><img src=""></div>
              *       </div>
              *     </div><span class="glm-next"></span>
              *    </div>
@@ -71,10 +77,11 @@
 
             $(options.images).each(function(index, image) {
               var $item = $('<div class="glm-item"></div>');
-              $item.css({
-                'width': itemWidth + 'px',
-                'height': itemHeight + 'px',
-                'background-image': 'url(' + image + ')'
+              var $img = $('<img src="'+ image +'">');
+              $item.append($img);
+              $img.on('load', function () {
+                itemWidth = $(this).width();
+                totalWidth = options.images.length*(itemWidth+itemMargin)-itemMargin;
               });
               if (index > 0) {
                 $item.css('margin-left', options.itemMargin + 'px');
@@ -83,19 +90,17 @@
               $items.push($item);
             });
 
-            $prev.css({
+            options.prevIcon && $prev.css({
               'background-image': 'url('+ options.prevIcon +')',
-              'line-height': itemHeight + 'px',
-              'height': itemHeight + 'px',
             });
 
-            $next.css({
+            options.nextIcon && $next.css({
               'background-image': 'url('+ options.nextIcon +')',
-              'line-height': itemHeight + 'px',
-              'height': itemHeight + 'px',
             });
 
             $prev.on('click', function() {
+              console.log($slider.position().left);
+              console.log(totalWidth - $sliderWrapper.width());
               if ($slider.is(':animated')) return;
               if (totalWidth - $sliderWrapper.width() >= -$slider.position().left) {
                 prev();
