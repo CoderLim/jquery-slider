@@ -19,20 +19,26 @@
 }
 .glm-item {
   display: inline-block;
-  width: 100px;
-  height: 100px;
+  width: 33.3%;
+  height: auto;
   box-sizing: border-box;
   background-size: cover;
-  border: 5px #fff solid;
+}
+.glm-item img {
+  width: 90%;
+  height: 100%;
+  border: 10px solid #fff;
 }
 .glm-prev,.glm-next {
   position: absolute;
   top: 0;
   width: 20px;
+  height: 100%;
   vertical-align: middle;
   line-height: 104px;
   background: transparent center no-repeat;
   background-size: contain;
+  z-index: 2;
 }
 .glm-prev {
   left: 0;
