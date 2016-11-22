@@ -103,7 +103,7 @@
 
             $prev.on('click', function() {
               if ($slider.is(':animated')) return;
-              if (totalWidth - $sliderWrapper.width() >= -$slider.position().left) {
+              if (totalWidth > $sliderWrapper.width() - $slider.position().left + itemWidth) {
                 prev();
               }
             });
